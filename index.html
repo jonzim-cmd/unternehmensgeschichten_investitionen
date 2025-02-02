@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unternehmerische Entscheidungen</title>
     <style>
-        /* Bestehende Styles */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             padding: 20px;
@@ -63,7 +62,6 @@
             height: auto;
             margin-top: 10px;
             border-radius: 4px;
-            cursor: zoom-in;
         }
 
         .flex {
@@ -89,47 +87,6 @@
         .mt-4 {
             margin-top: 1rem;
         }
-
-        /* Neue Styles für das Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            overflow: auto;
-        }
-
-        .modal-content {
-            margin: auto;
-            display: block;
-            max-width: 90%;
-            max-height: 90vh;
-            margin-top: 2%;
-        }
-
-        .close {
-            position: absolute;
-            right: 25px;
-            top: 15px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close:hover {
-            color: #bbb;
-        }
-
-        @media only screen and (max-width: 700px) {
-            .modal-content {
-                max-width: 100%;
-            }
-        }
     </style>
 </head>
 <body>
@@ -145,12 +102,6 @@
         </div>
         
         <div id="companyGrid" class="grid"></div>
-    </div>
-
-    <!-- Modal für Bildzoom -->
-    <div id="imageModal" class="modal">
-        <span class="close">&times;</span>
-        <img class="modal-content" id="modalImage">
     </div>
 
     <script>
@@ -200,7 +151,7 @@
                 name: 'Kodak',
                 logo: '📸',
                 description: 'Die vielleicht tragischste Geschichte der Digitalrevolution: Kodak erfand 1975 die erste Digitalkamera - und brachte sich damit selbst zu Fall. Der Ingenieur Steven Sasson präsentierte seiner Führung die revolutionäre Erfindung, doch die Reaktion war erschreckend: "Das darf niemand erfahren!" Kodak verdiente Milliarden mit analogem Film und fürchtete, die Digitaltechnologie könnte dieses Geschäft gefährden. Statt die eigene Erfindung weiterzuentwickeln, versteckte Kodak sie. Man investierte weiter in analoge Technologie, während die digitale Fotografie die Welt eroberte. Als Kodak endlich umsteuern wollte, war es zu spät. 2012 meldete das Unternehmen Insolvenz an - ausgerechnet in dem Jahr, als Instagram für 1 Milliarde Dollar verkauft wurde. Eine bittere Ironie: Das Unternehmen, das die digitale Fotografie erfand, ging an ihr zugrunde, weil es sich weigerte, seine eigene Zukunft zu akzeptieren.'
-            }
+            },
             {
                 name: 'Blockbuster',
                 logo: '🎥',
@@ -209,11 +160,6 @@
         ];
 
         let selectedCompany = null;
-
-        // Modal Elemente
-        const modal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImage');
-        const closeBtn = document.getElementsByClassName('close')[0];
 
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -241,16 +187,6 @@
                 </div>
             `;
 
-            // Bild-Zoom Event Listener
-            if (company.image) {
-                const img = card.querySelector('.aktienkurs-bild');
-                img.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Verhindert, dass der Card-Click ausgelöst wird
-                    modal.style.display = 'block';
-                    modalImg.src = company.image;
-                });
-            }
-
             card.addEventListener('click', () => {
                 const allCards = document.querySelectorAll('.card');
                 allCards.forEach(c => c.classList.remove('selected'));
@@ -276,24 +212,6 @@
                 grid.appendChild(createCompanyCard(company));
             });
         }
-
-        // Modal schließen Events
-        closeBtn.onclick = function() {
-            modal.style.display = 'none';
-        }
-
-        modal.onclick = function(event) {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        }
-
-        // Schließen mit Escape-Taste
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape' && modal.style.display === 'block') {
-                modal.style.display = 'none';
-            }
-        });
 
         // Initial load
         document.addEventListener('DOMContentLoaded', renderCompanies);
