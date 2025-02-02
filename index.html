@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unternehmerische Entscheidungen</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-8 {
+            margin-bottom: 2rem;
+        }
+
+        .text-2xl {
+            font-size: 1.5rem;
+        }
+
+        .font-bold {
+            font-weight: 700;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .selected {
+            box-shadow: 0 0 0 2px #3b82f6;
+        }
+
+        .aktienkurs-bild {
+            width: 100%;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .text-3xl {
+            font-size: 1.875rem;
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+        }
+
+        .mt-4 {
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-bold mb-4">Unternehmerische Entscheidungen</h1>
+            <p class="text-lg">
+                Schaue dir die verschiedenen Unternehmensgeschichten an. Wähle ein besonders 
+                erfolgreiches und ein weniger erfolgreiches Beispiel aus, das dich interessiert. 
+                Was haben alle diese Geschichten gemeinsam? Welche grundlegende unternehmerische 
+                Fähigkeit wird hier deutlich?
+            </p>
+        </div>
+        
+        <div id="companyGrid" class="grid"></div>
+    </div>
+
+    <script>
+        const companies = [
+            {
+                name: 'Tesla',
+                logo: '⚡',
+                description: 'Ende 2008 stand Tesla kurz vor dem Aus. Die Finanzkrise traf das junge Unternehmen hart, die Produktion des ersten Roadsters war komplizierter und teurer als geplant. Elon Musk, damals Chairman, steckte sein gesamtes verbliebenes Vermögen in das Unternehmen - rund 35 Millionen Dollar. Das Geld reichte gerade, um die Dezember-Gehälter zu zahlen. "Wir hatten nur noch wenige Stunden Betriebskapital übrig", erinnerte sich Musk später. In letzter Minute, am 23. Dezember 2008, gelang es Tesla, eine weitere Finanzierungsrunde abzuschließen. Bestehende Investoren gaben noch einmal 40 Millionen Dollar. Das Timing war dramatisch: Die Mitarbeiter erhielten ihre Gehälter nur Stunden vor Weihnachten. Dieser Moment markierte einen Wendepunkt: Tesla überlebte und wurde zum Vorreiter der Elektromobilität. Die Entscheidung, trotz extremer Risiken an die Vision von Elektroautos zu glauben, veränderte die gesamte Automobilindustrie.'
+            },
+            {
+                name: 'SpaceX',
+                logo: '🚀',
+                description: '2006-2008 erlebte SpaceX eine Serie von drei gescheiterten Raketenstarts der Falcon 1. Jeder Start kostete etwa 30 Millionen Dollar. Nach dem dritten Fehlschlag im August 2008 war das Geld fast aufgebraucht. Musk hatte nur noch Mittel für einen letzten Versuch. Am 28. September 2008 gelang der vierte Start - die Falcon 1 erreichte als erste privat entwickelte Flüssigtreibstoffrakete den Orbit. Diese eine Erfolgslandung verhinderte die Insolvenz. Nur drei Monate später erhielt SpaceX einen NASA-Auftrag über 1,6 Milliarden Dollar für ISS-Nachschubflüge. Heute ist SpaceX mit der wiederverwendbaren Falcon 9 und dem Starship-Programm führend in der Raumfahrt. Ein Beweis dafür, wie Beharrlichkeit selbst in aussichtslosen Situationen zum Durchbruch führen kann.'
+            },
+            {
+                name: 'Deutsche Autoindustrie',
+                logo: '🚗',
+                description: 'Die deutsche Autoindustrie steht am Scheideweg: Obwohl deutsche Ingenieure Pionierarbeit bei Elektroautos leisteten (BMW i3 2013), setzten die Konzerne bis 2019 primär auf Diesel und Plug-in-Hybride. Tesla überholte die etablierten Hersteller beim E-Auto-Volumen. 2023 hatten deutsche Hersteller nur 45% E-Anteil in der EU-Zulassungsstatistik - China dominiert mit 60% den Heimatmarkt. VW investiert nun 52 Milliarden Euro in die Elektromobilität bis 2026, kämpft aber mit Softwareproblemen (Cariad-Debakel). Die entscheidende Frage: Können BMW, Mercedes und VW den Technologiesprung zu Tesla und chinesischen Herstellern wie BYD schaffen? Die EU beschloss 2023 das Verbrenneraus ab 2035 - der Druck ist enorm. Die nächsten 5 Jahre werden zeigen, ob die deutsche Vorreiterrolle im Autobau erhalten bleibt oder ein Jahrhundert-Erfolgsmodell an disruptivem Wandel scheitert.'
+            },
+            {
+                name: 'Amazon',
+                logo: '🌐',
+                description: 'Eine der mutigsten Unternehmensentscheidungen der Tech-Geschichte: 2006 wagte Amazon einen gewaltigen Schritt und investierte Milliarden in eine völlig neue Technologie - das Cloud Computing. Zu dieser Zeit erschien es vielen als wahnsinnig, riesige Rechenzentren zu bauen, während Amazon noch kaum Gewinne machte. Doch Jeff Bezos hatte eine Vision: Er sah voraus, dass Unternehmen in Zukunft keine eigenen Server mehr betreiben, sondern Rechenleistung aus der "Cloud" beziehen würden. Diese Weitsicht zahlte sich spektakulär aus - AWS erwirtschaftet heute den Großteil der Amazon-Gewinne und dominiert den Cloud-Markt mit über 30% Marktanteil. Ein Paradebeispiel dafür, wie wichtige Zukunftsentscheidungen manchmal gegen den Mainstream getroffen werden müssen.'
+            },
+            {
+                name: 'Microsoft',
+                logo: '💻',
+                description: '2014 übernahm Satya Nadella die Führung von Microsoft - und läutete eine der bemerkenswertesten Transformationen der Wirtschaftsgeschichte ein. Microsoft galt damals als "Dinosaurier", gefangen in der PC-Ära. Nadella erkannte: Die Zukunft liegt in der Cloud und in Künstlicher Intelligenz. Er stellte das gesamte Geschäftsmodell auf den Kopf - weg vom einmaligen Verkauf von Software, hin zu Cloud-basierten Abonnements wie Microsoft 365. Eine gewagte Entscheidung, die sich brillant auszahlte: Der Aktienkurs stieg von etwa 38$ (2014) auf über 420$ (2024) - eine Steigerung um mehr als 1000%! Gleichzeitig investierte Microsoft massiv in KI und ging eine enge Partnerschaft mit OpenAI ein. Diese Weitsicht machte Microsoft zu einem der wertvollsten Unternehmen der Welt. Nadella bewies: Auch ein Großkonzern kann sich neu erfinden, wenn er mutig in die Zukunft investiert.',
+                image: 'Microsoft Aktienkurs.jpg'
+            },
+            {
+                name: 'Netflix',
+                logo: '🎬',
+                description: '2013 traf Netflix eine Entscheidung, die die Unterhaltungsindustrie revolutionieren sollte: Statt nur Filme und Serien zu streamen, würden sie selbst zum Produzenten werden. Mit "House of Cards" wagten sie ein 100-Millionen-Dollar-Experiment - die erste große Streaming-Original-Serie. Das Besondere: Netflix veröffentlichte alle Folgen auf einmal und führte das "Binge-Watching" ein. Die traditionellen TV-Sender hielten das für verrückt. Doch Netflix erkannte: Wer die besten Inhalte kontrolliert, kontrolliert den Markt. In den folgenden Jahren investierten sie über 17 Milliarden Dollar in eigene Produktionen. Eine riskante Strategie, die Netflix zum Weltmarktführer im Streaming machte und die traditionelle TV-Landschaft komplett veränderte. Aus einem DVD-Verleih wurde ein globales Entertainment-Imperium.'
+            },
+            {
+                name: 'Intel',
+                logo: '🔧',
+                description: 'Intel dominierte jahrzehntelang den Chip-Markt - bis eine fatale Fehleinschätzung alles veränderte. Als 2007 das iPhone erschien, belächelte Intel die "Spielzeug-Prozessoren" in Smartphones. Sie konzentrierten sich weiter auf leistungsstarke PC-Chips, während die Mobilrevolution an ihnen vorbeizog. Der zweite große Fehler: Intel unterschätzte die asiatische Konkurrenz in der Chip-Fertigung. Während TSMC Milliarden in modernste Produktionstechnologien investierte, hielt Intel an alten Fertigungsprozessen fest. Die Folgen waren dramatisch: Intel verlor seine technologische Führungsposition. Heute liegt man bei der Fertigungstechnologie mehrere Jahre hinter TSMC zurück - ein Rückstand, der Milliarden kostet aufzuholen. Eine schmerzhafte Lektion darüber, wie schnell auch Marktführer zurückfallen können, wenn sie technologische Trends verschlafen.'
+            },
+            {
+                name: 'Nokia',
+                logo: '📱',
+                description: 'Im Jahr 2007 war Nokia der unangefochtene König der Mobiltelefone - mit einem Weltmarktanteil von über 50%. Doch dann präsentierte Apple das iPhone, und Nokia traf eine verhängnisvolle Entscheidung: Man hielt am eigenen Symbian-Betriebssystem fest, statt auf den Touchscreen-Trend zu setzen. Die Nokia-Führung war überzeugt: "Wer will schon einen Bildschirm ohne Tasten?" Sie investierten weiter in alte Technologie, während die Smartphone-Revolution die Welt eroberte. Nokias Ingenieure entwickelten zwar innovative Prototypen, aber das Management blockierte den Wandel. Der Absturz war dramatisch: Innerhalb von nur 5 Jahren brach der Marktanteil auf unter 3% ein. 2013 verkaufte Nokia seine Handysparte an Microsoft - ein ehemaliger Weltmarktführer wurde zum Mahnmal dafür, wie gefährlich es ist, den technologischen Wandel zu verschlafen.'
+            },
+            {
+                name: 'Kodak',
+                logo: '📸',
+                description: 'Die vielleicht tragischste Geschichte der Digitalrevolution: Kodak erfand 1975 die erste Digitalkamera - und brachte sich damit selbst zu Fall. Der Ingenieur Steven Sasson präsentierte seiner Führung die revolutionäre Erfindung, doch die Reaktion war erschreckend: "Das darf niemand erfahren!" Kodak verdiente Milliarden mit analogem Film und fürchtete, die Digitaltechnologie könnte dieses Geschäft gefährden. Statt die eigene Erfindung weiterzuentwickeln, versteckte Kodak sie. Man investierte weiter in analoge Technologie, während die digitale Fotografie die Welt eroberte. Als Kodak endlich umsteuern wollte, war es zu spät. 2012 meldete das Unternehmen Insolvenz an - ausgerechnet in dem Jahr, als Instagram für 1 Milliarde Dollar verkauft wurde. Eine bittere Ironie: Das Unternehmen, das die digitale Fotografie erfand, ging an ihr zugrunde, weil es sich weigerte, seine eigene Zukunft zu akzeptieren.'
+            },
+            {
+                name: 'Blockbuster',
+                logo: '🎥',
+                description: 'Das Jahr 2000: Blockbuster war der König der Videotheken mit über 9.000 Filialen weltweit. Da klopfte ein kleines Start-up namens Netflix an und bot an, sich für 50 Millionen Dollar kaufen zu lassen. Blockbuster-CEO John Antioco lehnte lachend ab - eine der teuersten Fehlentscheidungen der Wirtschaftsgeschichte. Während Netflix das Streaming-Zeitalter einläutete, hielt Blockbuster an seinem veralteten Geschäftsmodell fest. Man ignorierte den digitalen Wandel und investierte weiter in physische Geschäfte. Die Zahlen sprechen für sich: 2010 meldete Blockbuster Insolvenz an, während Netflix heute über 230 Milliarden Dollar wert ist. Eine dramatische Erinnerung daran, wie wichtig es ist, technologische Veränderungen ernst zu nehmen - egal wie erfolgreich das aktuelle Geschäftsmodell erscheint.'
+            }
+        ];
+
+        let selectedCompany = null;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function createCompanyCard(company) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            
+            const isSelected = selectedCompany === company.name;
+            if (isSelected) card.classList.add('selected');
+
+            card.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <h2 class="font-bold">${company.name}</h2>
+                    <span class="text-3xl">${company.logo}</span>
+                </div>
+                ${company.image ? `<img src="${company.image}" class="aktienkurs-bild" alt="${company.name} Aktienkurs">` : ''}
+                <div class="description" style="display: ${isSelected ? 'block' : 'none'}; margin-top: 1rem;">
+                    ${company.description}
+                </div>
+            `;
+
+            card.addEventListener('click', () => {
+                const allCards = document.querySelectorAll('.card');
+                allCards.forEach(c => c.classList.remove('selected'));
+                
+                if (selectedCompany === company.name) {
+                    selectedCompany = null;
+                    card.querySelector('.description').style.display = 'none';
+                } else {
+                    selectedCompany = company.name;
+                    card.querySelector('.description').style.display = 'block';
+                    card.classList.add('selected');
+                }
+            });
+
+            return card;
+        }
+
+        function renderCompanies() {
+            const grid = document.getElementById('companyGrid');
+            grid.innerHTML = '';
+            const shuffled = shuffleArray([...companies]);
+            shuffled.forEach(company => {
+                grid.appendChild(createCompanyCard(company));
+            });
+        }
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', renderCompanies);
+    </script>
+</body>
+</html>
